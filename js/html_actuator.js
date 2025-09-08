@@ -38,6 +38,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
 // Continues the game (both restart and keep playing)
 HTMLActuator.prototype.continueGame = function () {
   this.clearMessage();
+  window.va && window.va('event', 'continue_playing');
 };
 
 HTMLActuator.prototype.clearContainer = function (container) {
@@ -130,6 +131,7 @@ HTMLActuator.prototype.message = function (won) {
 
   this.messageContainer.classList.add(type);
   this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+  window.va && window.va('event', won ? 'show_win_message' : 'show_game_over_message');
 };
 
 HTMLActuator.prototype.clearMessage = function () {

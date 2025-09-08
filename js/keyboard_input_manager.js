@@ -12,6 +12,9 @@ function KeyboardInputManager() {
     this.eventTouchend      = "touchend";
   }
 
+  // analytics guard for first interaction
+  this.firstInteracted = false;
+
   this.listen();
 }
 
@@ -58,6 +61,7 @@ KeyboardInputManager.prototype.listen = function () {
     if (!modifiers) {
       if (mapped !== undefined) {
         event.preventDefault();
+        if (!self.firstInteracted) { self.firstInteracted = true; window.va && window.va('event', 'first_move'); }
         self.emit("move", mapped);
       }
     }
@@ -122,6 +126,7 @@ KeyboardInputManager.prototype.listen = function () {
 
     if (Math.max(absDx, absDy) > 10) {
       // (right : left) : (down : up)
+      if (!self.firstInteracted) { self.firstInteracted = true; window.va && window.va('event', 'first_move'); }
       self.emit("move", absDx > absDy ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0));
     }
   });
@@ -129,11 +134,13 @@ KeyboardInputManager.prototype.listen = function () {
 
 KeyboardInputManager.prototype.restart = function (event) {
   event.preventDefault();
+  window.va && window.va('event', 'restart_click');
   this.emit("restart");
 };
 
 KeyboardInputManager.prototype.keepPlaying = function (event) {
   event.preventDefault();
+  window.va && window.va('event', 'keep_playing_click');
   this.emit("keepPlaying");
 };
 

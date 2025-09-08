@@ -167,7 +167,7 @@ GameManager.prototype.move = function (direction) {
           self.score += merged.value;
 
           // The mighty 4096 tile
-          if (merged.value === 4096) self.won = true;
+          if (merged.value === 4096) { self.won = true; window.va && window.va('event', 'reach_4096'); }
         } else {
           self.moveTile(tile, positions.farthest);
         }
@@ -184,6 +184,7 @@ GameManager.prototype.move = function (direction) {
 
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
+      window.va && window.va('event', 'game_over');
     }
 
     this.actuate();
