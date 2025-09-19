@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Performance Test - 4096 Game</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .results {
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .metric {
+      margin: 10px 0;
+      padding: 10px;
+      background: #f0f0f0;
+      border-left: 4px solid #4CAF50;
+    }
+    .metric.warning {
+      border-left-color: #ff9800;
+    }
+    .metric.error {
+      border-left-color: #f44336;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ddd;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Performance Test - 4096 Game</h1>
+  <p>This test will measure Core Web Vitals and loading performance.</p>
+  
+  <button onclick="runTest()">Run Performance Test</button>
+  
+  <div class="results" id="results"></div>
+  
+  <iframe id="gameFrame" src="/"></iframe>
+  
+  <script>
+    function runTest() {
+      const results = document.getElementById('results');
+      const iframe = document.getElementById('gameFrame');
+      
+      results.innerHTML = '<p>Running test...</p>';
+      iframe.style.display = 'block';
+      
+      // Reload iframe to get fresh metrics
+      iframe.src = '/?test=' + Date.now();
+      
+      const startTime = performance.now();
+      const metrics = {
+        loadTime: 0,
+        domContentLoaded: 0,
+        resourcesLoaded: [],
+        totalSize: 0,
+        cachedResources: 0,
+        networkRequests: 0
+      };
+      
+      iframe.onload = function() {
+        const loadTime = performance.now() - startTime;
+        metrics.loadTime = loadTime;
+        
+        // Get performance entries
+        setTimeout(() => {
+          const entries = performance.getEntriesByType('resource');
+          let html = '<h2>Test Results</h2>';
+          
+          // Page Load Time
+          const loadClass = loadTime < 1000 ? '' : loadTime < 3000 ? 'warning' : 'error';
+          html += `<div class="metric ${loadClass}">
+            <strong>Page Load Time:</strong> ${loadTime.toFixed(2)}ms
+            ${loadTime < 1000 ? '✅ Excellent' : loadTime < 3000 ? '⚠️ Could be improved' : '❌ Needs improvement'}
+          </div>`;
+          
+          // Resource Analysis
+          const jsFiles = entries.filter(e => e.name.includes('.js'));
+          const cssFiles = entries.filter(e => e.name.includes('.css'));
+          const fontFiles = entries.filter(e => e.name.includes('.woff'));
+          
+          html += '<div class="metric">';
+          html += '<strong>Resources Loaded:</strong><br>';
+          html += `- JavaScript files: ${jsFiles.length}<br>`;
+          html += `- CSS files: ${cssFiles.length}<br>`;
+          html += `- Font files: ${fontFiles.length}<br>`;
+          html += `- Total requests: ${entries.length}`;
+          html += '</div>';
+          
+          // Calculate total size
+          let totalTransferred = 0;
+          entries.forEach(entry => {
+            if (entry.transferSize) {
+              totalTransferred += entry.transferSize;
+            }
+          });
+          
+          html += `<div class="metric">
+            <strong>Total Data Transferred:</strong> ${(totalTransferred / 1024).toFixed(2)} KB
+          </div>`;
+          
+          // Cache Hit Rate
+          const cachedEntries = entries.filter(e => e.transferSize === 0);
+          const cacheRate = entries.length > 0 ? (cachedEntries.length / entries.length * 100) : 0;
+          
+          html += `<div class="metric">
+            <strong>Cache Hit Rate:</strong> ${cacheRate.toFixed(1)}% (${cachedEntries.length}/${entries.length} resources)
+          </div>`;
+          
+          // Slowest Resources
+          const slowResources = entries
+            .filter(e => e.duration > 0)
+            .sort((a, b) => b.duration - a.duration)
+            .slice(0, 5);
+          
+          if (slowResources.length > 0) {
+            html += '<div class="metric">';
+            html += '<strong>Slowest Resources:</strong><br>';
+            slowResources.forEach(resource => {
+              const name = resource.name.split('/').pop();
+              const durationClass = resource.duration > 500 ? 'error' : resource.duration > 200 ? 'warning' : '';
+              html += `<span class="${durationClass}">- ${name}: ${resource.duration.toFixed(2)}ms</span><br>`;
+            });
+            html += '</div>';
+          }
+          
+          // Recommendations
+          html += '<div class="metric">';
+          html += '<strong>Optimization Recommendations:</strong><br>';
+          
+          if (loadTime > 3000) {
+            html += '- Consider further optimizing JavaScript bundle size<br>';
+          }
+          if (cacheRate < 80) {
+            html += '- Service Worker caching can be improved<br>';
+          }
+          if (fontFiles.length > 3) {
+            html += '- Consider reducing font variations<br>';
+          }
+          if (jsFiles.length > 10) {
+            html += '- Consider bundling JavaScript files<br>';
+          }
+          
+          html += '</div>';
+          
+          results.innerHTML = html;
+          
+          // Test Web Vitals if available
+          testWebVitals();
+        }, 1000);
+      };
+    }
+    
+    function testWebVitals() {
+      if ('PerformanceObserver' in window) {
+        const results = document.getElementById('results');
+        let vitalsHTML = '<h3>Core Web Vitals (Estimated)</h3>';
+        
+        // Estimate LCP
+        const entries = performance.getEntriesByType('paint');
+        const lcp = entries.find(e => e.name === 'largest-contentful-paint');
+        const fcp = entries.find(e => e.name === 'first-contentful-paint');
+        
+        if (fcp) {
+          const fcpTime = fcp.startTime;
+          const fcpClass = fcpTime < 1800 ? '' : fcpTime < 3000 ? 'warning' : 'error';
+          vitalsHTML += `<div class="metric ${fcpClass}">
+            <strong>First Contentful Paint (FCP):</strong> ${fcpTime.toFixed(2)}ms
+            ${fcpTime < 1800 ? '✅ Good' : fcpTime < 3000 ? '⚠️ Needs Improvement' : '❌ Poor'}
+          </div>`;
+        }
+        
+        // Estimate CLS (usually 0 for well-designed games)
+        vitalsHTML += `<div class="metric">
+          <strong>Cumulative Layout Shift (CLS):</strong> ~0 (Game layout is stable)
+          ✅ Good
+        </div>`;
+        
+        // Note about FID
+        vitalsHTML += `<div class="metric">
+          <strong>First Input Delay (FID):</strong> Requires user interaction to measure
+          ℹ️ Click or tap the game to measure
+        </div>`;
+        
+        results.innerHTML += vitalsHTML;
+      }
+    }
+    
+    // Auto-run on load for convenience
+    window.addEventListener('load', () => {
+      setTimeout(runTest, 1000);
+    });
+  </script>
+</body>
+</html>

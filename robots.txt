@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://4096game.app/sitemap.xml
+
+# Disallow any unnecessary paths
+Disallow: /js/
+Disallow: /style/
+Disallow: /meta/
+
+# Crawl-delay to be respectful to servers
+Crawl-delay: 10
+
+# Specific rules for search engine bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /

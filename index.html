@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>4096 - Merge numbers online | Play on desktop & mobile</title>
-  <meta name="description" content="4096 is a fast, lightweight number-merge puzzle. Swipe or use arrow keys to combine tiles and reach 4096 and beyond. No install required.">
+  <title>4096 Puzzle Game: Brain Training Number Merge Challenge | Play Anywhere</title>
+  <meta name="description" content="Master the 4096 number merge puzzle! 🧠 Enhance cognitive skills with our brain-training game. Learn advanced strategies, improve problem-solving, and challenge yourself. Play free online, no downloads.">
+  <meta name="keywords" content="4096 game, number merge puzzle, brain training, cognitive skills, strategy game, online puzzle">
   <link rel="canonical" href="https://4096game.app/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Play 4096 - Number merge puzzle">
-  <meta property="og:description" content="Swipe or use arrow keys to merge numbers and reach 4096. Smooth animations. Works great on mobile and desktop.">
+  <meta property="og:title" content="4096 Puzzle: Ultimate Number Merge Brain Game">
+  <meta name="robots" content="index, follow">
+  <meta property="og:description" content="Merge numbers strategically to reach 4096! A brain-training puzzle game that challenges your cognitive skills. Play now and boost your mental agility.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="4096 Game">
   <meta property="og:image" content="https://4096game.app/meta/og-image-4096.png">
   <meta property="og:url" content="https://4096game.app/">
   <meta name="twitter:card" content="summary_large_image">
@@ -19,21 +23,46 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Game",
+    "@type": "WebApplication",
     "name": "4096 - Number merge puzzle",
     "url": "https://4096game.app/",
+    "description": "Play the ultimate 4096 number merge puzzle game with expert strategy guides, cognitive benefits, and professional tips. Browser-based brain training game with smooth performance.",
     "applicationCategory": "Game",
     "operatingSystem": "Web",
     "inLanguage": "en",
-    "description": "Merge number tiles to reach 4096. Smooth, lightweight, mobile-friendly.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
     "publisher": {
       "@type": "Organization",
-      "name": "PlayVault"
-    }
+      "name": "PlayVault",
+      "description": "Digital game development studio specializing in brain training and puzzle games"
+    },
+    "audience": {
+      "@type": "Audience",
+      "suggestedMinAge": "8",
+      "suggestedMaxAge": "100"
+    },
+    "keywords": "4096 game, number merge puzzle, brain training, puzzle game, cognitive skills",
+    "educationalUse": "Brain training, problem-solving, strategic thinking"
   }
   </script>
 
-  <link href="style/main.css" rel="stylesheet" type="text/css">
+  <!-- Preload critical fonts -->
+  <link rel="preload" href="style/fonts/ClearSans-Bold-webfont.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="style/fonts/ClearSans-Regular-webfont.woff" as="font" type="font/woff" crossorigin>
+  
+  <!-- Critical CSS inline -->
+  <style>
+    /* Critical inline styles for above-fold content */
+    html,body{margin:0;padding:0;background:#faf8ef;color:#776e65;font-family:"Clear Sans","Helvetica Neue",Arial,sans-serif;font-size:18px}body{margin:80px 0}.container{width:500px;margin:0 auto}h1.title{font-size:80px;font-weight:700;margin:0;display:block;float:left}.scores-container{float:right;text-align:right}.score-container,.best-container{position:relative;display:inline-block;background:#bbada0;padding:15px 25px;font-size:25px;height:25px;line-height:47px;font-weight:700;border-radius:3px;color:#fff;margin-top:8px;text-align:center}.restart-button{display:inline-block;background:#8f7a66;border-radius:3px;padding:0 20px;text-decoration:none;color:#f9f6f2;height:40px;line-height:42px;font-size:18px;margin-left:9px}.game-container{margin-top:40px;position:relative;padding:15px;cursor:default;background:#bbada0;border-radius:6px;width:500px;height:500px;box-sizing:border-box}.grid-container{position:absolute;z-index:1}.grid-row{margin-bottom:15px}.grid-row:last-child{margin-bottom:0}.grid-row:after{content:"";display:block;clear:both}.grid-cell{width:106.25px;height:106.25px;margin-right:15px;float:left;border-radius:3px;background:rgba(238,228,218,.35)}.grid-cell:last-child{margin-right:0}
+  </style>
+  
+  <!-- Load main CSS asynchronously -->
+  <link rel="preload" href="style/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="style/main.css"></noscript>
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
   <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
@@ -46,78 +75,196 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
-  <div class="container">
-    <div class="heading">
-      <h1 class="title">4096</h1>
-      <div class="scores-container">
-        <div class="score-container">0</div>
-        <div class="best-container">0</div>
-      </div>
-    </div>
-
-    <div class="above-game">
-      <p class="game-intro">Join the numbers and get to the <strong>4096 tile!</strong></p>
-      <a class="restart-button">New Game</a>
-    </div>
-
-    <div class="game-container">
-      <div class="game-message">
-        <p></p>
-        <div class="lower">
-	        <a class="keep-playing-button">Keep going</a>
-          <a class="retry-button">Try again</a>
-        </div>
+  <div class="container" itemscope itemtype="https://schema.org/WebPage">
+    <header class="page-header">
+      <div class="heading">
+        <h1 class="title" itemprop="name">4096</h1>
+        <nav class="game-nav" aria-label="Game Controls">
+          <div class="scores-container">
+            <div class="score-container" aria-label="Current Score">0</div>
+            <div class="best-container" aria-label="Best Score">0</div>
+          </div>
+        </nav>
       </div>
 
-      <div class="grid-container">
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-        <div class="grid-row">
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-          <div class="grid-cell"></div>
-        </div>
-      </div>
+      <section class="game-intro" aria-describedby="game-instructions">
+        <p class="intro-text">Master the ultimate <strong>number merge puzzle</strong> - combine tiles strategically to reach the <strong>4096 tile!</strong></p>
+        <a href="#" class="restart-button" aria-label="Start New Game">New Game</a>
+      </section>
+    </header>
 
-      <div class="tile-container">
+    <main class="game-content" role="main">
+      <section class="game-container" aria-label="Game Board">
+        <div class="game-message" role="alert" aria-live="assertive">
+          <p></p>
+          <div class="lower">
+            <a href="#" class="keep-playing-button" aria-label="Continue Playing">Keep going</a>
+            <a href="#" class="retry-button" aria-label="Try Again">Try again</a>
+          </div>
+        </div>
 
-      </div>
-    </div>
+        <div class="grid-container" role="grid">
+          <div class="grid-row" role="row">
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+          </div>
+          <div class="grid-row" role="row">
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+          </div>
+          <div class="grid-row" role="row">
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+          </div>
+          <div class="grid-row" role="row">
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+            <div class="grid-cell" role="gridcell"></div>
+          </div>
+        </div>
 
-    <p class="game-explanation">
-      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
-    </p>
+        <div class="tile-container" aria-hidden="true">
+        </div>
+      </section>
+
+      <section class="game-instructions" id="game-instructions" aria-label="Game Instructions">
+        <h2 class="instructions-title">How to Play</h2>
+        <p class="game-explanation">
+          <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+        </p>
+      </section>
+    </main>
+    
+    <!-- Content sections with lazy loading -->
+    <div id="content-wrapper" style="opacity: 0; transition: opacity 0.3s;">
+    <section class="content-section" id="about-game" data-lazy>
+      <h2>About the 4096 Game</h2>
+      <p>The <strong>4096 game</strong> is an addictive number merge puzzle that challenges your strategic thinking and planning skills. This <strong>online puzzle game</strong> builds upon the popular 2048 concept, requiring players to combine numbered tiles to reach the ultimate goal of 4096. Unlike simple matching games, this <strong>brain training game</strong> demands careful consideration of each move to avoid filling the board and ending the game.</p>
+      
+      <p>What makes the 4096 puzzle unique is its perfect balance of simplicity and complexity. While the rules are easy to understand, mastering the game requires developing sophisticated strategies and pattern recognition skills that provide excellent <strong>mental exercise</strong>.</p>
+    </section>
+
+    <section class="content-section" id="strategy-guide">
+      <h2>Complete Strategy Guide for 4096</h2>
+      <h3>Corner Strategy</h3>
+      <p>The most effective approach for this <strong>number merge puzzle</strong> is to keep your highest tile in one corner and build around it. Choose a corner and consistently move tiles toward that position. This prevents your largest numbers from getting trapped in the middle of the board.</p>
+      
+      <h3>Directional Priority</h3>
+      <p>Establish a movement priority system using three main directions. For example, if your corner is bottom-right, prioritize: Right → Down → Left. Only move up when absolutely necessary. This systematic approach is crucial for achieving high scores in this <strong>online puzzle game</strong>.</p>
+      
+      <h3>Snake Pattern Building</h3>
+      <p>Arrange your tiles in a snake-like pattern, with values decreasing as they move away from your chosen corner. This organization helps maintain clear pathways for merging and prevents board lockup - a common challenge in advanced <strong>brain training games</strong>.</p>
+    </section>
+
+    <section class="content-section" id="expert-tips">
+      <h2>Expert Tips and Tricks</h2>
+      <ul>
+        <li><strong>Think Three Moves Ahead:</strong> Before making any move in this <strong>4096 game</strong>, visualize how the board will look after your next three moves. This forward-thinking approach prevents tactical mistakes.</li>
+        <li><strong>Preserve Merge Opportunities:</strong> Keep pairs of identical numbers close together but don't merge them immediately unless it serves your overall strategy.</li>
+        <li><strong>Edge Management:</strong> Use the board edges to your advantage. Tiles against edges can't move in that direction, giving you more control over tile positioning.</li>
+        <li><strong>Emergency Moves:</strong> When facing potential game over, sometimes you need to break your strategy temporarily. Look for any possible merges that can free up space.</li>
+        <li><strong>Patience with Large Numbers:</strong> Once you reach 1024 or 2048, resist the urge to merge immediately. Position these tiles strategically for maximum future benefit.</li>
+      </ul>
+    </section>
+
+    <section class="content-section" id="cognitive-benefits">
+      <h2>Cognitive Benefits of Playing 4096</h2>
+      <p>Regular play of this <strong>brain training game</strong> offers numerous mental health benefits backed by cognitive research:</p>
+      
+      <h3>Enhanced Problem-Solving Skills</h3>
+      <p>The 4096 puzzle strengthens your ability to analyze complex situations and develop multi-step solutions. Each game presents unique challenges that require creative problem-solving approaches.</p>
+      
+      <h3>Improved Working Memory</h3>
+      <p>Tracking multiple tile positions and potential moves simultaneously exercises your working memory. This <strong>number merge puzzle</strong> requires you to hold several pieces of information in mind while planning your strategy.</p>
+      
+      <h3>Pattern Recognition Development</h3>
+      <p>Success in this <strong>online puzzle game</strong> depends on recognizing favorable board patterns and predicting tile behavior. These skills transfer to real-world situations requiring pattern analysis.</p>
+      
+      <h3>Strategic Planning Abilities</h3>
+      <p>The game teaches long-term strategic thinking over short-term gains. Players learn to sacrifice immediate opportunities for better future positioning - a valuable life skill.</p>
+      
+      <h3>Stress Relief and Focus</h3>
+      <p>The meditative nature of this <strong>brain training game</strong> helps reduce stress while improving concentration. The clear objectives and immediate feedback create a satisfying flow state experience.</p>
+    </section>
+
+    <section class="content-section" id="advanced-techniques">
+      <h2>Advanced Techniques for Higher Scores</h2>
+      <h3>Board State Evaluation</h3>
+      <p>Learn to quickly assess board favorability by counting empty spaces, identifying merge potential, and evaluating tile distribution. Strong players can determine game viability at a glance.</p>
+      
+      <h3>Tile Value Progression</h3>
+      <p>Understand the mathematical progression: 2 → 4 → 8 → 16 → 32 → 64 → 128 → 256 → 512 → 1024 → 2048 → 4096. Each merge doubles the value, so protecting higher-value tiles becomes increasingly important.</p>
+      
+      <h3>Endgame Strategy</h3>
+      <p>As you approach the 4096 tile, board space becomes critically important. Focus on maintaining flexibility rather than pursuing aggressive merges. Sometimes the path to victory requires patience and careful board management.</p>
+    </section>
+
+    <section class="content-section" id="why-choose">
+      <h2>Why Choose Our 4096 Game?</h2>
+      <ul>
+        <li><strong>Optimized Performance:</strong> Smooth animations and responsive controls enhance your gaming experience</li>
+        <li><strong>Cross-Platform Compatibility:</strong> Play seamlessly on desktop, tablet, or mobile devices</li>
+        <li><strong>No Downloads Required:</strong> Instant access through your web browser</li>
+        <li><strong>Progress Tracking:</strong> Automatic score saving to track your improvement</li>
+        <li><strong>Clean Interface:</strong> Distraction-free design keeps you focused on the puzzle</li>
+      </ul>
+    </section>
+
+    <section class="content-section" id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <h3>What's the difference between 2048 and 4096?</h3>
+      <p>While both are <strong>number merge puzzles</strong>, the 4096 game requires reaching a higher target tile, making it more challenging and requiring more advanced strategies. The gameplay mechanics remain similar, but the increased difficulty provides a greater sense of achievement.</p>
+      
+      <h3>How long does it take to reach 4096?</h3>
+      <p>Game duration varies greatly depending on skill level and strategy. Beginners might take several attempts to understand the mechanics, while experienced players can reach 4096 in 15-30 minutes with proper technique.</p>
+      
+      <h3>Can I continue playing after reaching 4096?</h3>
+      <p>Yes! Once you achieve the 4096 tile, you can continue playing to reach even higher numbers like 8192 or 16384, providing extended challenge for dedicated players.</p>
+      
+      <h3>Is this game suitable for all ages?</h3>
+      <p>Absolutely! This <strong>brain training game</strong> is appropriate for anyone who can understand basic number concepts. It's particularly beneficial for developing mathematical thinking and strategic planning skills.</p>
+    </section>
+
     <hr>
     
+    <nav class="content-navigation" aria-label="Article Navigation">
+      <h2>Quick Navigation</h2>
+      <ul>
+        <li><a href="#about-game">About the Game</a></li>
+        <li><a href="#strategy-guide">Strategy Guide</a></li>
+        <li><a href="#expert-tips">Expert Tips</a></li>
+        <li><a href="#cognitive-benefits">Cognitive Benefits</a></li>
+        <li><a href="#advanced-techniques">Advanced Techniques</a></li>
+        <li><a href="#why-choose">Why Choose Our Game</a></li>
+        <li><a href="#faq">Frequently Asked Questions</a></li>
+      </ul>
+    </nav>
+    </div><!-- End content-wrapper -->
   </div>
 
-  <script src="js/bind_polyfill.js"></script>
-  <script src="js/classlist_polyfill.js"></script>
-  <script src="js/animframe_polyfill.js"></script>
-  <script src="js/keyboard_input_manager.js"></script>
-  <script src="js/html_actuator.js"></script>
-  <script src="js/grid.js"></script>
-  <script src="js/tile.js"></script>
-  <script src="js/local_storage_manager.js"></script>
-  <script src="js/game_manager.js"></script>
-  <script src="js/application.js"></script>
+  <footer>
+    <small>&copy; 2024 PlayVault. All rights reserved. Brain training game designed to enhance cognitive skills.</small>
+  </footer>
+
+  <!-- Defer all game scripts -->
+  <script src="js/bind_polyfill.js" defer></script>
+  <script src="js/classlist_polyfill.js" defer></script>
+  <script src="js/animframe_polyfill.js" defer></script>
+  <script src="js/keyboard_input_manager.js" defer></script>
+  <script src="js/html_actuator.js" defer></script>
+  <script src="js/grid.js" defer></script>
+  <script src="js/tile.js" defer></script>
+  <script src="js/local_storage_manager.js" defer></script>
+  <script src="js/game_manager.js" defer></script>
+  <script src="js/application.js" defer></script>
+  <script src="js/performance-monitor.js" defer></script>
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
@@ -131,5 +278,56 @@
     });
   </script>
   <script src="https://openpanel.dev/op1.js" defer async></script>
+  
+  <!-- Lazy loading and performance optimization script -->
+  <script>
+    // Lazy load content sections after game loads
+    if ('IntersectionObserver' in window) {
+      document.addEventListener('DOMContentLoaded', function() {
+        // Show content wrapper after slight delay
+        setTimeout(function() {
+          var wrapper = document.getElementById('content-wrapper');
+          if (wrapper) {
+            wrapper.style.opacity = '1';
+          }
+        }, 100);
+        
+        // Preconnect to external domains
+        var preconnect = document.createElement('link');
+        preconnect.rel = 'preconnect';
+        preconnect.href = 'https://openpanel.dev';
+        document.head.appendChild(preconnect);
+      });
+    } else {
+      // Fallback for older browsers
+      document.addEventListener('DOMContentLoaded', function() {
+        var wrapper = document.getElementById('content-wrapper');
+        if (wrapper) wrapper.style.opacity = '1';
+      });
+    }
+    
+    // Optimize font loading
+    if ('fonts' in document) {
+      Promise.all([
+        document.fonts.load('700 1em "Clear Sans"'),
+        document.fonts.load('400 1em "Clear Sans"')
+      ]).then(function() {
+        document.documentElement.classList.add('fonts-loaded');
+      });
+    }
+    
+    // Register Service Worker for offline support and caching
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registered:', registration.scope);
+          })
+          .catch(function(err) {
+            console.log('ServiceWorker registration failed:', err);
+          });
+      });
+    }
+  </script>
 </body>
 </html>
